@@ -1,0 +1,41 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@chakra-ui/react": "^1.6.10",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "aws-sdk": "^2.1013.0",
+    "axios": "^0.21.4",
+    "body-parser": "^1.19.0",
+    "bootstrap": "5.1.0",
+    "compromise": "^13.11.4",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "framer-motion": "^4",
+    "leaflet": "^1.7.1",
+    "morgan": "^1.10.0",
+    "natural": "^5.1.1",
+    "nlcst-to-string": "^3.1.0",
+    "node-rake": "^1.0.1",
+    "path": "^0.12.7",
+    "react-bootstrap": "^2.0.0-beta.6",
+    "react-html-parser": "^2.0.2",
+    "redis": "^3.1.2",
+    "response-time": "^2.3.2",
+    "retext": "^8.1.0",
+    "retext-keywords": "^7.1.0",
+    "retext-pos": "^4.1.0",
+    "retext-simplify": "^7.1.0",
+    "stopword": "^1.0.11"
+  }
+}
