@@ -25,7 +25,6 @@ redisClient.on("error", (err) => {
   console.log("Error " + err);
 });
 
-
 // Globals
 const ONE_HOUR = 60 * 60 * 1000; /* ms */
 const bucketName = "n9951831-artikeler";
@@ -56,10 +55,14 @@ router.get("/headlines/:country?", (req, res) => {
       return new AWS.S3({ apiVersion: "2006-03-01" }).getObject(
         params,
         (err, result) => {
-          // If S3 over 3 hours old
-          if (result && new Date() - result.LastModified < 3 * ONE_HOUR) {
+          // If S3 less than 0.5 hours old
+          if (result && new Date() - result.LastModified < ONE_HOUR) {
             const resultJSON = JSON.parse(result.Body);
-            redisClient.setex(redisKey, 3600, JSON.stringify({ source: 'Redis Cache', ...resultJSON, }));
+            redisClient.setex(
+              redisKey,
+              3600,
+              JSON.stringify({ source: "Redis Cache", ...resultJSON })
+            );
             return res.status(200).json(resultJSON);
           } else {
             promises.push(
@@ -79,6 +82,7 @@ router.get("/headlines/:country?", (req, res) => {
                       sentimentAnalysis(tokenize(article.title))
                     ),
                   }));
+                  //news.articles = news.articles.map(({title, description, content, url, image, publishedAt, source, ...rest}) => rest);
                 })
             );
 
@@ -87,7 +91,11 @@ router.get("/headlines/:country?", (req, res) => {
                 source: "API",
                 ...news,
               });
-              redisClient.setex(redisKey, 3600, JSON.stringify({ source: 'Redis Cache', ...news, }));
+              redisClient.setex(
+                redisKey,
+                3600,
+                JSON.stringify({ source: "Redis Cache", ...news })
+              );
               s3Add(`headlines${"-" + req.params.country}`, news);
             });
           }
@@ -104,7 +112,7 @@ router.get("/search/:query/:dateFrom?/:dateTo?", (req, res) => {
   const params = { Bucket: bucketName, Key: s3Key };
   let promises = [];
 
-  let news = { id: Math.random(), articles: [] };
+  let news = { articles: [] };
   const gnewsSetting = {
     lang: "en",
     query: req.params.query,
@@ -125,7 +133,11 @@ router.get("/search/:query/:dateFrom?/:dateTo?", (req, res) => {
     return redisClient.get(redisKey, (err, result) => {
       if (result) {
         const resultJSON = JSON.parse(result);
-        redisClient.setex(redisKey, 3600, JSON.stringify({ source: 'Redis Cache', ...resultJSON, }));
+        redisClient.setex(
+          redisKey,
+          3600,
+          JSON.stringify({ source: "Redis Cache", ...resultJSON })
+        );
         return res.status(200).json(resultJSON);
       } else {
         // Tried to add this to s3 module as "S3Get(query, func)" but ran into issues
@@ -153,6 +165,9 @@ router.get("/search/:query/:dateFrom?/:dateTo?", (req, res) => {
                       return article;
                     });
                     news.articles = news.articles.concat(rsp.articles);
+                    news.articles = news.articles.map(
+                      ({ content, ...rest }) => rest
+                    );
                   })
               );
 
@@ -185,7 +200,11 @@ router.get("/search/:query/:dateFrom?/:dateTo?", (req, res) => {
                   }));
                 })
                 .then(() => {
-                  redisClient.setex(redisKey, 3600, JSON.stringify({ source: 'Redis Cache', ...news, }));
+                  redisClient.setex(
+                    redisKey,
+                    3600,
+                    JSON.stringify({ source: "Redis Cache", ...news })
+                  );
                   res.json({
                     source: "API",
                     ...news,

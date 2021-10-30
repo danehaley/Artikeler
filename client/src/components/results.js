@@ -62,13 +62,13 @@ export default function Results(props) {
                 px="2"
                 ms="1"
                 colorScheme="gray"
-                _hover={{ bg: 'var(--chakra-colors-gray-200)' }}
-                style={{cursor: 'pointer'}}
+                _hover={{ bg: "var(--chakra-colors-gray-200)" }}
+                style={{ cursor: "pointer" }}
                 onClick={() => {
                   clickHandlerRemove(props, tag);
                 }}
               >
-                {tag.replace(/\s+/g, '-').toLowerCase()}
+                {tag.replace(/\s+/g, "-").toLowerCase()}
               </Badge>
             );
           })}
@@ -103,19 +103,21 @@ export default function Results(props) {
               px="2"
               ms="1"
               colorScheme="gray"
-              _hover={{ bg: 'var(--chakra-colors-gray-200)' }}
-              style={{cursor: 'pointer'}}
+              _hover={{ bg: "var(--chakra-colors-gray-200)" }}
+              style={{ cursor: "pointer" }}
               onClick={() => {
                 clickHandlerRemove(props, tag);
               }}
             >
-              {tag.replace(/\s+/g, '-').toLowerCase()}
+              {tag.replace(/\s+/g, "-").toLowerCase()}
             </Badge>
           );
         })}
         <AddButton state={props.state} setState={props.setState} />
       </Flex>
-      {articles === null ? null : <ul>{articles.map((article) => articlePipeline(article, props))}</ul>}
+      {articles === null ? null : (
+        <ul>{articles.map((article) => articlePipeline(article, props))}</ul>
+      )}
     </div>
   );
 }
@@ -144,32 +146,50 @@ function AddButton(props) {
         {PopoverCheck(toggle, handleSubmit)}
       </Popover>
     );
-  }
-}
-
-function PopoverCheck(state, handleSubmit) {
-  const [input, setInput] = useState("");
-  if (state === true) {
+  } else {
     return (
-      <PopoverContent>
-        <form onSubmit={(e)=>{e.preventDefault(); handleSubmit(input)}}>
-          <FormControl isRequired>
-            <FormLabel mx='2'>Topic</FormLabel>
-            <Input
-              size="sm"
-              mx='2'
-              width="95%"
-              onChange={(event) => setInput(event.currentTarget.value)}
-            />
-          </FormControl>
-          <Button
-            variantColor="gray"
-            type="submit"
-            width="95%"
-            m={2}
-          >Add</Button>
-        </form>
-      </PopoverContent>
+      <Popover>
+        <IconButton
+          aria-label="Add to searchterms"
+          size="xs"
+          ms="1"
+          icon={<AddIcon />}
+          onClick={() => {
+            setToggle(false);
+          }}
+          isDisabled="false"
+        />
+        {PopoverCheck(toggle, handleSubmit)}
+      </Popover>
     );
+  }
+
+  function PopoverCheck(state, handleSubmit) {
+    const [input, setInput] = useState("");
+    if (state === true) {
+      return (
+        <PopoverContent>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit(input);
+            }}
+          >
+            <FormControl isRequired>
+              <FormLabel mx="2">Topic</FormLabel>
+              <Input
+                size="sm"
+                mx="2"
+                width="95%"
+                onChange={(event) => setInput(event.currentTarget.value)}
+              />
+            </FormControl>
+            <Button variantColor="gray" type="submit" width="95%" m={2}>
+              Add
+            </Button>
+          </form>
+        </PopoverContent>
+      );
+    }
   }
 }

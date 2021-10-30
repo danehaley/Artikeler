@@ -14,12 +14,12 @@ export function clickHandlerAdd(props, input) {
   if (!props.state.includes(input) && props.state.length < 6) {
     props.setState((oldState) => [...oldState, input]);
   } else {
-    return null;
+    props.setState((oldState) => [...oldState]);
   }
 }
 
 export function clickHandlerRemove(props, input) {
-  // If input isn't in state array
+  // If input isn't in state array 
   if (props.state.includes(input)) {
     props.setState((oldState) =>
       oldState.filter(function (query) {
@@ -27,7 +27,7 @@ export function clickHandlerRemove(props, input) {
       })
     );
   } else {
-    return null;
+    props.setState((oldState) => [...oldState]);
   }
 }
 
