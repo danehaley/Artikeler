@@ -1,7 +1,5 @@
 ![Artikeler Logo, made by me!](/client/src/img/markdown/markdown_logo.png)
 
-# ARTIKELER
-
 ## An interactive article aggregation web application
 
 ### Filter through articles using topic tags
