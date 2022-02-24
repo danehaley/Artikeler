@@ -1,4 +1,4 @@
-![Artikeler Logo, made by me!](/client/src/img/logo.png)
+![Artikeler Logo, made by me!](/client/src/img/markdown/markdown_logo.png)
 
 # ARTIKELER
 
