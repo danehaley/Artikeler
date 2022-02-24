@@ -82,7 +82,6 @@ router.get("/headlines/:country?", (req, res) => {
                       sentimentAnalysis(tokenize(article.title))
                     ),
                   }));
-                  //news.articles = news.articles.map(({title, description, content, url, image, publishedAt, source, ...rest}) => rest);
                 })
             );
 
@@ -170,22 +169,6 @@ router.get("/search/:query/:dateFrom?/:dateTo?", (req, res) => {
                     );
                   })
               );
-
-              // This API is dreadfully slow & unstable - in some cases causing GET speeds to react upwards of 10 seconds... even a minute.
-              /*promises.push(
-            /*      CURRENTS API CALL       */
-              /*axios
-              .get(
-                `https://api.currentsapi.services/v1/search?keywords=${currentsSetting.query}&limit=10&apiKey=${keychain.currents}`
-              )
-              .then((response) => {
-                return response.data;
-              })
-              .then((rsp) => {
-                news.articles = news.articles.concat(rsp.news);
-                console.log("currents is done");
-              })
-          );*/
 
               return Promise.all(promises)
                 .then(() => {

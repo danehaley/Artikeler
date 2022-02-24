@@ -3,7 +3,6 @@ import { config } from "dotenv";
 config();
 
 const bucketName = "n9951831-artikeler";
-const delay = ms => new Promise(res => setTimeout(res, ms)); // https://stackoverflow.com/a/47480429
 
 function s3Setup() {
   // S3 Bucket setup
@@ -23,7 +22,6 @@ function s3Setup() {
 }
 
 function s3Add(data, s3Key) {
-
   const body = JSON.stringify({
     source: "S3 Bucket",
     ...data,
