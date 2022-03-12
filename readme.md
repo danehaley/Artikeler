@@ -1,4 +1,4 @@
-![Artikeler Logo, made by me!](/client/src/img/markdown/markdown_logo.png)
+![Artikeler Logo, made by me!](/client/src/img/markdown/markdown_logo_update.png)
 
 ## An interactive article aggregation web application
 
